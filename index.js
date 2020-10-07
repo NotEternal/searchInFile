@@ -3,51 +3,51 @@
 const dropArea = document.querySelector('.file__form');
 const dropInput = document.querySelector('#drop-input');
 
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
-    dropArea.addEventListener(event, (evt) => {
-        evt.preventDefault();
-        evt.stopPropagation();
-    });
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach((event) => {
+  dropArea.addEventListener(event, (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+  });
 });
 
-['dragenter', 'dragover'].forEach(event => {
-    dropArea.addEventListener(event, (evt) => {
-        dropArea.classList.add('drag');
-    });
+['dragenter', 'dragover'].forEach((event) => {
+  dropArea.addEventListener(event, (evt) => {
+    dropArea.classList.add('drag');
+  });
 });
 
-['dragleave', 'drop'].forEach(event => {
-    dropArea.addEventListener(event, (evt) => {
-        dropArea.classList.remove('drag');
-    });
+['dragleave', 'drop'].forEach((event) => {
+  dropArea.addEventListener(event, (evt) => {
+    dropArea.classList.remove('drag');
+  });
 });
 
 dropArea.addEventListener('drop', (event) => {
-    const dt = event.dataTransfer;
-    const file = dt.files[0];
+  const dt = event.dataTransfer;
+  const file = dt.files[0];
 
-    readFile(file);
+  readFile(file);
 });
 
 dropInput.addEventListener('change', (event) => {
-    readFile(event.target.files[0]);
+  readFile(event.target.files[0]);
 });
 
 let fileContent = null;
 
 function readFile(file) {
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.readAsText(file);
+  reader.readAsText(file);
 
-    reader.onload = () => {
-        fileContent = reader.result;
-        showOptions();
-    };
+  reader.onload = () => {
+    fileContent = reader.result;
+    showOptions();
+  };
 
-    reader.onerror = () => {
-        console.log(reader.error);
-    };
+  reader.onerror = () => {
+    console.log(reader.error);
+  };
 }
 
 const fileSection = document.querySelector('.file');
@@ -59,77 +59,77 @@ const modalResultList = document.querySelector('.search-results-list');
 const btnModalClose = document.querySelector('.search-result-btn-close');
 
 function showOptions() {
-    resultSection.classList.remove('hide');
-    fileSection.classList.add('hide');
+  resultSection.classList.remove('hide');
+  fileSection.classList.add('hide');
 }
 
 btnBack.onclick = () => {
-    fileSection.classList.remove('hide');
-    resultSection.classList.add('hide');
-}
+  fileSection.classList.remove('hide');
+  resultSection.classList.add('hide');
+};
 
 btnSearch.onclick = () => {
-    modalResultList.innerHTML = '';
+  modalResultList.innerHTML = '';
 
-    const arrResults = [];
-    const arrOptions = checkedOption();
+  const arrResults = [];
+  const arrOptions = checkedOption();
 
-    if (arrOptions.length) {
-        searchInText(fileContent, arrOptions).forEach((item) => {
-            if (item) {
-                const li = document.createElement('li');
-                li.textContent = item;
-                modalResultList.append(li);
-            } else {
-                modalResultList.textContent = 'Nothing found';
-            }
-        });
-    } else {
+  if (arrOptions.length) {
+    searchInText(fileContent, arrOptions).forEach((item) => {
+      if (item) {
+        const li = document.createElement('li');
+        li.textContent = item;
+        modalResultList.append(li);
+      } else {
         modalResultList.textContent = 'Nothing found';
-    }
+      }
+    });
+  } else {
+    modalResultList.textContent = 'Nothing found';
+  }
 
-    modalResult.classList.remove('hide');
-}
+  modalResult.classList.remove('hide');
+};
 
 const arrCheckboxes = [...document.querySelectorAll('input[type=checkbox]')];
 
 function checkedOption() {
-    const resultArr = [];
+  const resultArr = [];
 
-    for (let i = 0; i < arrCheckboxes.length; i += 1) {
-        if (arrCheckboxes[i].checked) {
-            resultArr.push(arrCheckboxes[i].value);
-        }
+  for (let i = 0; i < arrCheckboxes.length; i += 1) {
+    if (arrCheckboxes[i].checked) {
+      resultArr.push(arrCheckboxes[i].value);
     }
+  }
 
-    return resultArr;
+  return resultArr;
 }
 
 function searchInText(fileContent, arrOptions) {
-    let resultArr = [];
-    const objRegexpTemplate = {
-        phone: /-?\d\(?\d{3}\)?\d{3}-?\d{2}-?\d{2}/g,
-        email: /[a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-z]+\.[a-z]+/g,
-        date: /\d{4}-([0][0-9]|[1][012])-([0-2][0-9]|3[01])/g,
-    }
+  let resultArr = [];
+  const objRegexpTemplate = {
+    phone: /-?\d\(?\d{3}\)?\d{3}-?\d{2}-?\d{2}/g,
+    email: /[a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-z]+\.[a-z]+/g,
+    date: /\d{4}-([0][0-9]|[1][012])-([0-2][0-9]|3[01])/g,
+  };
 
-    arrOptions.forEach((regName) => {
-        resultArr = resultArr.concat(fileContent.match(objRegexpTemplate[regName]));
-    });
+  arrOptions.forEach((regName) => {
+    resultArr = resultArr.concat(fileContent.match(objRegexpTemplate[regName]));
+  });
 
-    return resultArr;
+  return resultArr;
 }
 
 btnModalClose.onclick = () => {
-    modalResult.classList.add('hide');
-}
+  modalResult.classList.add('hide');
+};
 
 const ESC_CODE = 27;
 
 document.addEventListener('keydown', (event) => {
-    if (event.keyCode === ESC_CODE) {
-        modalResult.classList.add('hide');
-    }
+  if (event.keyCode === ESC_CODE) {
+    modalResult.classList.add('hide');
+  }
 });
 
 // ----------------------------------------------
@@ -148,19 +148,19 @@ setInterval(setMinutes, 1000 * 60);
 setInterval(setSeconds, 1000);
 
 function setHours() {
-    new Date().getHours().toString().length === 1
-        ? footerHours.textContent = '0' + new Date().getHours()
-        : footerHours.textContent = new Date().getHours();
+  new Date().getHours().toString().length === 1
+    ? (footerHours.textContent = '0' + new Date().getHours())
+    : (footerHours.textContent = new Date().getHours());
 }
 
 function setMinutes() {
-    new Date().getMinutes().toString().length === 1
-        ? footerMinutes.textContent = '0' + new Date().getMinutes()
-        : footerMinutes.textContent = new Date().getMinutes();
+  new Date().getMinutes().toString().length === 1
+    ? (footerMinutes.textContent = '0' + new Date().getMinutes())
+    : (footerMinutes.textContent = new Date().getMinutes());
 }
 
 function setSeconds() {
-    new Date().getSeconds().toString().length === 1
-        ? footerSeconds.textContent = '0' + new Date().getSeconds()
-        : footerSeconds.textContent = new Date().getSeconds();
+  new Date().getSeconds().toString().length === 1
+    ? (footerSeconds.textContent = '0' + new Date().getSeconds())
+    : (footerSeconds.textContent = new Date().getSeconds());
 }

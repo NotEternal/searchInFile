@@ -1,68 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SearchInFile</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
     <header class="header">
-        <h1 class="header__title">Search in file</h1>
+      <h1 class="header__title">Search in file</h1>
     </header>
 
     <main class="main">
-        <section class="node file">
-              <form class="file__form">
-                <p class="file__message">DRAG and DROP FILE or click to select</p>
-                <input type="file" id="drop-input" hidden>
-                <label for="drop-input" class="drop-input__label"></label>
-              </form>
-        </section>
+      <section class="node file">
+        <form class="file__form">
+          <p class="file__message">DRAG and DROP FILE or click to select</p>
+          <input type="file" id="drop-input" hidden />
+          <label for="drop-input" class="drop-input__label"></label>
+        </form>
+      </section>
 
-        <section class="node result hide">
-            <button class="result__btn result__btn-back">Back</button>
+      <section class="node result hide">
+        <button class="result__btn result__btn-back">Back</button>
 
-            <ul class="result__options">
-                <li>
-                    <input type="checkbox" value="phone" id="result__option-phone" checked hidden>
-                    <label for="result__option-phone">Phone numbers <span class="example">(79876543210)</span></label>
-                </li>
-                <li>
-                    <input type="checkbox" value="email" id="result__option-email" hidden>
-                    <label for="result__option-email">Email address <span class="example">(example@mail.com)</span></label>
-                </li>
-                <li>
-                    <input type="checkbox" value="date" id="result__option-date" hidden>
-                    <label for="result__option-date">Date <span class="example">(yyyy-mm-dd)</span></label>
-                </li>
-            </ul>
+        <ul class="result__options">
+          <li>
+            <input
+              type="checkbox"
+              value="phone"
+              id="result__option-phone"
+              checked
+              hidden
+            />
+            <label for="result__option-phone"
+              >Phone numbers <span class="example">(79876543210)</span></label
+            >
+          </li>
+          <li>
+            <input
+              type="checkbox"
+              value="email"
+              id="result__option-email"
+              hidden
+            />
+            <label for="result__option-email"
+              >Email address
+              <span class="example">(example@mail.com)</span></label
+            >
+          </li>
+          <li>
+            <input
+              type="checkbox"
+              value="date"
+              id="result__option-date"
+              hidden
+            />
+            <label for="result__option-date"
+              >Date <span class="example">(yyyy-mm-dd)</span></label
+            >
+          </li>
+        </ul>
 
-            <button class="result__btn result__btn-search">Search...</button>
-        </section>
+        <button class="result__btn result__btn-search">Search...</button>
+      </section>
 
-        <div class="search-results-wrapper hide">
-            <div class="search-results-modal">
-                <button class="search-result-btn-close">Close</button>
-                <ul class="search-results-list"></ul>
-            </div>
+      <div class="search-results-wrapper hide">
+        <div class="search-results-modal">
+          <button class="search-result-btn-close">Close</button>
+          <ul class="search-results-list"></ul>
         </div>
+      </div>
     </main>
 
     <footer class="footer">
-        <time class="footer__date">
-            <span class="footer__hours"></span>
-            &#32; <!-- space -->
-            &#58; <!-- colon -->
-            &#32; <!-- space -->
-            <span class="footer__minutes"></span>
-            &#32; <!-- space -->
-            &#58; <!-- colon -->
-            &#32; <!-- space -->
-            <span class="footer__seconds"></span>
-        </time>
+      <time class="footer__date">
+        <span class="footer__hours"></span>
+        &#32;
+        <!-- space -->
+        &#58;
+        <!-- colon -->
+        &#32;
+        <!-- space -->
+        <span class="footer__minutes"></span>
+        &#32;
+        <!-- space -->
+        &#58;
+        <!-- colon -->
+        &#32;
+        <!-- space -->
+        <span class="footer__seconds"></span>
+      </time>
     </footer>
 
     <script src="index.js"></script>
-</body>
+  </body>
 </html>
