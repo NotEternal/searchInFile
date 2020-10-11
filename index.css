@@ -1,8 +1,3 @@
-@import url('./normalize.css');
-@import url('./header.css');
-@import url('./main.css');
-@import url('./footer.css');
-
 /* cyrillic */
 @font-face {
   font-family: 'Roboto';
@@ -23,7 +18,6 @@
 }
 
 html {
-  font-size: .875em; // 14px
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
@@ -35,15 +29,11 @@ body {
   min-height: 100vh;
   margin: 0 auto;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
   --green: #0c6;
   --white: #fff;
   --gray: #666;
   --dark: #111;
+  --black: #000;
   --light-dark: #222;
   --key-color: var(--green);
 
@@ -115,7 +105,7 @@ textarea {
 /* -------------------------- */
 
 .header {
-  padding: 10em 1em 0;
+  padding: 3em 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,10 +113,13 @@ textarea {
 }
 
 .main {
-  position: relative
+  min-height: 30em;
+  min-width: 25em;
+  height: 35em;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
 }
 
 .file__form {
@@ -136,6 +129,10 @@ textarea {
   border: .1em solid var(--light-dark);
   border-radius: 1em;
   transition: .23s;
+}
+
+.file__form:hover {
+  box-shadow: 0 0 1em var(--black);
 }
 
 .file__form.drag {
@@ -233,7 +230,7 @@ textarea {
 }
 
 .search-results-wrapper {
-  position: absolute;
+  position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
@@ -256,7 +253,7 @@ textarea {
 }
 
 .search-results-modal {
-  padding: 5%;
+  padding: 3%;
   border: .1em solid var(--light-dark);
   border-radius: .3em;
   background-color: var(--dark);
@@ -292,7 +289,7 @@ textarea {
 }
 
 .footer {
-  padding: 1em 1em 10em;
+  padding: 2em 0;
   text-align: center;
   border-top: .1em solid var(--light-dark);
 }
