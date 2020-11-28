@@ -70,7 +70,7 @@ btnBack.onclick = () => {
  */
 
 const regExps = {
-  phone: /^((\+7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/g,
+  phone: /^((\+7|-7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/g,
   email: /^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/gm,
   url: /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/g,
   date: /^(?![+-]?\d{4,5}-?(?:\d{2}|W\d{2})T)(?:|(\d{4}|[+-]\d{5})-?(?:|(0\d|1[0-2])(?:|-?([0-2]\d|3[0-1]))|([0-2]\d{2}|3[0-5]\d|36[0-6])|W([0-4]\d|5[0-3])(?:|-?([1-7])))(?:(?!\d)|T(?=\d)))(?:|([01]\d|2[0-4])(?:|:?([0-5]\d)(?:|:?([0-5]\d)(?:|\.(\d{3})))(?:|[zZ]|([+-](?:[01]\d|2[0-4]))(?:|:?([0-5]\d)))))$/g,
@@ -101,28 +101,24 @@ btnSearch.onclick = () => {
 
     try {
       if (options.length) {
-        const optionsListsArr = [];
+        const divWrapper = document.createElement('div');
+        const searchResult = searchInFile(fileContent, options);
 
-        searchInFile(fileContent, options).forEach((item, index) => {
-          const optionList = document.createElement('ul');
-          const li = document.createElement('li');
+        if (searchResult.length) {
+          searchResult.forEach((list) => {
+            div.append(list);
+          });
 
-          // optionList.append(`<h3>${options[index]}</h3>`);
-          // li.textContent = item;
-          // console.log('item ', item);
-          // optionList.appendChild(li);
-          // optionsListsArr.push(optionList);
-        });
-
-        finallyContent = optionsListsArr.concat('');
+          finallyContent = divWrapper;
+        }
       } else {
         finallyContent = 'Nothing found';
       }
     } catch (err) {
-      finallyContent = 'Nothing found';
+      finallyContent = 'Something go wrong. Try again 😕';
       console.error(`Search error: ${err}`);
     } finally {
-      resultsWrapper.innerHTML = finallyContent;
+      resultsWrapper.innerHTML = finallyContent || 'Nothing found';
     }
   }, 1200);
 };
@@ -141,14 +137,35 @@ function checkedOption() {
   return checkedOptionsArr;
 }
 
-function searchInFile(fileContent, arrOptions) {
-  let resultArr = [];
+/* ----------------------------------------------
+ * RegExp search
+ */
 
-  arrOptions.forEach((regName) => {
-    resultArr = resultArr.concat(fileContent.match(regExps[regName]));
+function searchInFile(fileContent, options) {
+  const resultLists = [];
+
+  options.forEach((regName) => {
+    const optionList = document.createElement('ul');
+    const li = document.createElement('li');
+    const mathArr = fileContent.match(regExps[regName]);
+
+    console.log(`resultLists `, resultLists); // TODO:
+
+    if (mathArr) {
+      optionList.append(
+        `<h3>${regName[0].toUpperCase() + regName.slice(1)}</h3>`
+      );
+
+      mathArr.forEach((math) => {
+        li.innerText = math;
+        optionList.append(li);
+      });
+
+      resultLists.push(optionList);
+    }
   });
 
-  return resultArr;
+  return resultLists;
 }
 
 /* ----------------------------------------------

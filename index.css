@@ -122,7 +122,7 @@ input {
   visibility: visible;
   filter: blur(0);
   opacity: 1;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .file.hide {
