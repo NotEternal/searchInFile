@@ -251,6 +251,12 @@ input {
   padding: 1.6em;
 }
 
+.search-results__wrapper ul {
+  list-style: inside;
+  padding-left: 1em;
+  margin: 0;
+}
+
 .footer {
   padding: 2em 0;
   text-align: center;

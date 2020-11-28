@@ -97,28 +97,28 @@ btnSearch.onclick = () => {
   // delay just for funny
   setTimeout(() => {
     const options = checkedOption();
-    let finallyContent = '';
+    let finallyContent = document.createElement('div');
 
     try {
       if (options.length) {
-        const divWrapper = document.createElement('div');
         const searchResult = searchInFile(fileContent, options);
 
         if (searchResult) {
           searchResult.forEach((list) => {
-            divWrapper.append(list);
+            console.log('list ', list);
+            finallyContent.append(list);
           });
-
-          finallyContent = divWrapper;
         }
       } else {
-        finallyContent = 'Nothing found';
+        finallyContent.append('Nothing found');
       }
     } catch (err) {
-      finallyContent = 'Something go wrong. Try again 😕';
+      finallyContent.append('Something go wrong. Try again 😕');
       console.error(`Search error: ${err}`);
     } finally {
-      resultsWrapper.innerHTML = finallyContent || 'Nothing found';
+      console.log('finallyContent ', finallyContent);
+      resultsWrapper.innerHTML = '';
+      resultsWrapper.append(finallyContent || '<div>Nothing found</div>');
     }
   }, 1200);
 };
@@ -146,18 +146,16 @@ function searchInFile(fileContent, options) {
 
   options.forEach((regName) => {
     const optionList = document.createElement('ul');
-    const li = document.createElement('li');
     const matchArr = fileContent.match(regExps[regName]);
 
-    console.log(`matchArr `, matchArr); // TODO:
-
     if (matchArr) {
-      optionList.append(
-        `<h3>${regName[0].toUpperCase() + regName.slice(1)}</h3>`
-      );
+      optionList.style.marginBottom = '1em';
+      optionList.append(`${regName[0].toUpperCase() + regName.slice(1)}s`);
 
-      matchArr.forEach((math) => {
-        li.innerText = math;
+      matchArr.forEach((match) => {
+        const li = document.createElement('li');
+
+        li.innerText = match;
         optionList.append(li);
       });
 
@@ -172,9 +170,9 @@ function searchInFile(fileContent, options) {
  * Footer time
  */
 
-let footerHours = document.querySelector('.footer__hours');
-let footerMinutes = document.querySelector('.footer__minutes');
-let footerSeconds = document.querySelector('.footer__seconds');
+const footerHours = document.querySelector('.footer__hours');
+const footerMinutes = document.querySelector('.footer__minutes');
+const footerSeconds = document.querySelector('.footer__seconds');
 
 setHours();
 setMinutes();
