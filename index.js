@@ -70,10 +70,10 @@ btnBack.onclick = () => {
  */
 
 const regExps = {
-  phone: /^((\+7|-7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/g,
-  email: /^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/gm,
-  url: /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/g,
-  date: /^(?![+-]?\d{4,5}-?(?:\d{2}|W\d{2})T)(?:|(\d{4}|[+-]\d{5})-?(?:|(0\d|1[0-2])(?:|-?([0-2]\d|3[0-1]))|([0-2]\d{2}|3[0-5]\d|36[0-6])|W([0-4]\d|5[0-3])(?:|-?([1-7])))(?:(?!\d)|T(?=\d)))(?:|([01]\d|2[0-4])(?:|:?([0-5]\d)(?:|:?([0-5]\d)(?:|\.(\d{3})))(?:|[zZ]|([+-](?:[01]\d|2[0-4]))(?:|:?([0-5]\d)))))$/g,
+  phone: /((\+7|-7|7|8)+([0-9]){10})/g,
+  date: /\d{4}-([0][0-9]|[1][012])-([0-2][0-9]|3[01])/g,
+  email: /([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}/g,
+  url: /(https?|ftp|file):\/\/([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/g,
 };
 
 /* ----------------------------------------------
@@ -104,9 +104,9 @@ btnSearch.onclick = () => {
         const divWrapper = document.createElement('div');
         const searchResult = searchInFile(fileContent, options);
 
-        if (searchResult.length) {
+        if (searchResult) {
           searchResult.forEach((list) => {
-            div.append(list);
+            divWrapper.append(list);
           });
 
           finallyContent = divWrapper;
@@ -147,16 +147,16 @@ function searchInFile(fileContent, options) {
   options.forEach((regName) => {
     const optionList = document.createElement('ul');
     const li = document.createElement('li');
-    const mathArr = fileContent.match(regExps[regName]);
+    const matchArr = fileContent.match(regExps[regName]);
 
-    console.log(`resultLists `, resultLists); // TODO:
+    console.log(`matchArr `, matchArr); // TODO:
 
-    if (mathArr) {
+    if (matchArr) {
       optionList.append(
         `<h3>${regName[0].toUpperCase() + regName.slice(1)}</h3>`
       );
 
-      mathArr.forEach((math) => {
+      matchArr.forEach((math) => {
         li.innerText = math;
         optionList.append(li);
       });
@@ -165,7 +165,7 @@ function searchInFile(fileContent, options) {
     }
   });
 
-  return resultLists;
+  return resultLists.length ? resultLists : null;
 }
 
 /* ----------------------------------------------
