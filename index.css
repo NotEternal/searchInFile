@@ -251,12 +251,6 @@ input {
   padding: 1.6em;
 }
 
-.search-results__wrapper ul {
-  list-style: inside;
-  padding-left: 1em;
-  margin: 0;
-}
-
 .footer {
   padding: 2em 0;
   text-align: center;
@@ -291,14 +285,6 @@ input {
 .lds-facebook div:nth-child(3) {
   left: 40px;
   animation-delay: 0;
-}
-.lds-facebook div:nth-child(4) {
-  left: 56px;
-  animation-delay: 0.12s;
-}
-.lds-facebook div:nth-child(5) {
-  left: 72px;
-  animation-delay: 0.24s;
 }
 @keyframes lds-facebook {
   0% {

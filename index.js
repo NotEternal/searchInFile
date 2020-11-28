@@ -81,13 +81,11 @@ const regExps = {
  */
 
 const loaderNode = `
-<div class="lds-facebook">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+  <div class="lds-facebook">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 `;
 
 btnSearch.onclick = () => {
@@ -105,7 +103,6 @@ btnSearch.onclick = () => {
 
         if (searchResult) {
           searchResult.forEach((list) => {
-            console.log('list ', list);
             finallyContent.append(list);
           });
         }
@@ -116,9 +113,10 @@ btnSearch.onclick = () => {
       finallyContent.append('Something go wrong. Try again 😕');
       console.error(`Search error: ${err}`);
     } finally {
-      console.log('finallyContent ', finallyContent);
-      resultsWrapper.innerHTML = '';
-      resultsWrapper.append(finallyContent || '<div>Nothing found</div>');
+      resultsWrapper.innerHTML = ''; // delete loader
+      resultsWrapper.append(
+        finallyContent.childNodes.length ? finallyContent : 'Nothing found'
+      );
     }
   }, 1200);
 };
@@ -150,6 +148,7 @@ function searchInFile(fileContent, options) {
 
     if (matchArr) {
       optionList.style.marginBottom = '1em';
+      optionList.style.listStyle = 'inside';
       optionList.append(`${regName[0].toUpperCase() + regName.slice(1)}s`);
 
       matchArr.forEach((match) => {
