@@ -12,17 +12,15 @@
     </header>
 
     <main class="main">
-      <section class="node file">
+      <section class="file">
         <form class="file__form">
-          <p class="file__message">DRAG and DROP FILE or click to select</p>
+          <p class="file__message">Drag file or click to select</p>
           <input type="file" id="drop-input" hidden />
           <label for="drop-input" class="drop-input__label"></label>
         </form>
       </section>
 
-      <section class="node result hide">
-        <button class="result__btn result__btn-back">Back</button>
-
+      <section class="result">
         <ul class="result__options">
           <li>
             <input
@@ -33,7 +31,8 @@
               hidden
             />
             <label for="result__option-phone"
-              >Phone numbers <span class="example">(79876543210)</span></label
+              >Phone numbers
+              <span class="example">| example: 79991235678</span></label
             >
           </li>
           <li>
@@ -45,7 +44,9 @@
             />
             <label for="result__option-email"
               >Email address
-              <span class="example">(example@mail.com)</span></label
+              <span class="example"
+                >| example: yourAddress@mail.com</span
+              ></label
             >
           </li>
           <li>
@@ -56,20 +57,24 @@
               hidden
             />
             <label for="result__option-date"
-              >Date <span class="example">(yyyy-mm-dd)</span></label
+              >Date <span class="example">| example: 1897-09-21</span></label
+            >
+          </li>
+          <li>
+            <input type="checkbox" value="url" id="result__option-url" hidden />
+            <label for="result__option-url"
+              >URL
+              <span class="example">| example: https://google.com</span></label
             >
           </li>
         </ul>
-
-        <button class="result__btn result__btn-search">Search...</button>
+        <div class="result__btc-container">
+          <button class="result__btn result__btn-back">Back</button>
+          <button class="result__btn result__btn-search">Search</button>
+        </div>
       </section>
 
-      <div class="search-results-wrapper hide">
-        <div class="search-results-modal">
-          <button class="search-result-btn-close">Close</button>
-          <ul class="search-results-list"></ul>
-        </div>
-      </div>
+      <section class="search-results"></section>
     </main>
 
     <footer class="footer">

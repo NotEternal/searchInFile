@@ -11,13 +11,13 @@ const dropInput = document.querySelector('#drop-input');
 });
 
 ['dragenter', 'dragover'].forEach((event) => {
-  dropArea.addEventListener(event, (evt) => {
+  dropArea.addEventListener(event, () => {
     dropArea.classList.add('drag');
   });
 });
 
 ['dragleave', 'drop'].forEach((event) => {
-  dropArea.addEventListener(event, (evt) => {
+  dropArea.addEventListener(event, () => {
     dropArea.classList.remove('drag');
   });
 });
@@ -71,7 +71,6 @@ btnBack.onclick = () => {
 btnSearch.onclick = () => {
   modalResultList.innerHTML = '';
 
-  const arrResults = [];
   const arrOptions = checkedOption();
 
   if (arrOptions.length) {
@@ -105,35 +104,34 @@ function checkedOption() {
   return resultArr;
 }
 
+/* ----------------------------------------------
+ * Regular expressions
+ */
+
+const regExps = {
+  phone: /^((\+7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/,
+  email: /^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/gm,
+  url: /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+  date: /^(?![+-]?\d{4,5}-?(?:\d{2}|W\d{2})T)(?:|(\d{4}|[+-]\d{5})-?(?:|(0\d|1[0-2])(?:|-?([0-2]\d|3[0-1]))|([0-2]\d{2}|3[0-5]\d|36[0-6])|W([0-4]\d|5[0-3])(?:|-?([1-7])))(?:(?!\d)|T(?=\d)))(?:|([01]\d|2[0-4])(?:|:?([0-5]\d)(?:|:?([0-5]\d)(?:|\.(\d{3})))(?:|[zZ]|([+-](?:[01]\d|2[0-4]))(?:|:?([0-5]\d)))))$/,
+};
+
 function searchInText(fileContent, arrOptions) {
   let resultArr = [];
-  const objRegexpTemplate = {
-    phone: /-?\d\(?\d{3}\)?\d{3}-?\d{2}-?\d{2}/g,
-    email: /[a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-z]+\.[a-z]+/g,
-    date: /\d{4}-([0][0-9]|[1][012])-([0-2][0-9]|3[01])/g,
-  };
 
   arrOptions.forEach((regName) => {
-    resultArr = resultArr.concat(fileContent.match(objRegexpTemplate[regName]));
+    resultArr = resultArr.concat(fileContent.match(regExps[regName]));
   });
 
   return resultArr;
 }
 
-btnModalClose.onclick = () => {
-  modalResult.classList.add('hide');
-};
+/* ----------------------------------------------
+ * Search result section
+ */
 
-const ESC_CODE = 27;
-
-document.addEventListener('keydown', (event) => {
-  if (event.keyCode === ESC_CODE) {
-    modalResult.classList.add('hide');
-  }
-});
-
-// ----------------------------------------------
-// Added next code just for fun and practice
+/* ----------------------------------------------
+ * Footer time
+ */
 
 let footerHours = document.querySelector('.footer__hours');
 let footerMinutes = document.querySelector('.footer__minutes');
