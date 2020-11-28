@@ -12,7 +12,7 @@
     </header>
 
     <main class="main">
-      <section class="file">
+      <section class="file hide">
         <form class="file__form">
           <p class="file__message">Drag file or click to select</p>
           <input type="file" id="drop-input" hidden />
@@ -74,25 +74,18 @@
         </div>
       </section>
 
-      <section class="search-results"></section>
+      <section class="search-results">
+        <h2 class="search-result__title">Search results</h2>
+        <div class="search-results__wrapper"></div>
+      </section>
     </main>
 
     <footer class="footer">
       <time class="footer__date">
         <span class="footer__hours"></span>
-        &#32;
-        <!-- space -->
-        &#58;
-        <!-- colon -->
-        &#32;
-        <!-- space -->
+        &#32; &#58; &#32;
         <span class="footer__minutes"></span>
-        &#32;
-        <!-- space -->
-        &#58;
-        <!-- colon -->
-        &#32;
-        <!-- space -->
+        &#32; &#58; &#32;
         <span class="footer__seconds"></span>
       </time>
     </footer>

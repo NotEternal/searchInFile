@@ -10,4 +10,4 @@ Just drop file (or click for choose) in window and choose options
 - Date (example: 1897-09-21)
 - URL address (example: https://google.com)
 
-👉[check it](https://noteternal.github.io/searchInFile/)
+👉 [check it](https://noteternal.github.io/searchInFile/)

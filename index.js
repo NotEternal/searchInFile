@@ -54,9 +54,6 @@ const fileSection = document.querySelector('.file');
 const resultSection = document.querySelector('.result');
 const btnBack = document.querySelector('.result__btn-back');
 const btnSearch = document.querySelector('.result__btn-search');
-const modalResult = document.querySelector('.search-results-wrapper');
-const modalResultList = document.querySelector('.search-results-list');
-const btnModalClose = document.querySelector('.search-result-btn-close');
 
 function showOptions() {
   resultSection.classList.remove('hide');
@@ -68,54 +65,83 @@ btnBack.onclick = () => {
   resultSection.classList.add('hide');
 };
 
-btnSearch.onclick = () => {
-  modalResultList.innerHTML = '';
-
-  const arrOptions = checkedOption();
-
-  if (arrOptions.length) {
-    searchInText(fileContent, arrOptions).forEach((item) => {
-      if (item) {
-        const li = document.createElement('li');
-        li.textContent = item;
-        modalResultList.append(li);
-      } else {
-        modalResultList.textContent = 'Nothing found';
-      }
-    });
-  } else {
-    modalResultList.textContent = 'Nothing found';
-  }
-
-  modalResult.classList.remove('hide');
-};
-
-const arrCheckboxes = [...document.querySelectorAll('input[type=checkbox]')];
-
-function checkedOption() {
-  const resultArr = [];
-
-  for (let i = 0; i < arrCheckboxes.length; i += 1) {
-    if (arrCheckboxes[i].checked) {
-      resultArr.push(arrCheckboxes[i].value);
-    }
-  }
-
-  return resultArr;
-}
-
 /* ----------------------------------------------
  * Regular expressions
  */
 
 const regExps = {
-  phone: /^((\+7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/,
+  phone: /^((\+7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/g,
   email: /^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/gm,
-  url: /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-  date: /^(?![+-]?\d{4,5}-?(?:\d{2}|W\d{2})T)(?:|(\d{4}|[+-]\d{5})-?(?:|(0\d|1[0-2])(?:|-?([0-2]\d|3[0-1]))|([0-2]\d{2}|3[0-5]\d|36[0-6])|W([0-4]\d|5[0-3])(?:|-?([1-7])))(?:(?!\d)|T(?=\d)))(?:|([01]\d|2[0-4])(?:|:?([0-5]\d)(?:|:?([0-5]\d)(?:|\.(\d{3})))(?:|[zZ]|([+-](?:[01]\d|2[0-4]))(?:|:?([0-5]\d)))))$/,
+  url: /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/g,
+  date: /^(?![+-]?\d{4,5}-?(?:\d{2}|W\d{2})T)(?:|(\d{4}|[+-]\d{5})-?(?:|(0\d|1[0-2])(?:|-?([0-2]\d|3[0-1]))|([0-2]\d{2}|3[0-5]\d|36[0-6])|W([0-4]\d|5[0-3])(?:|-?([1-7])))(?:(?!\d)|T(?=\d)))(?:|([01]\d|2[0-4])(?:|:?([0-5]\d)(?:|:?([0-5]\d)(?:|\.(\d{3})))(?:|[zZ]|([+-](?:[01]\d|2[0-4]))(?:|:?([0-5]\d)))))$/g,
 };
 
-function searchInText(fileContent, arrOptions) {
+/* ----------------------------------------------
+ * Search result section
+ */
+
+const loaderNode = `
+<div class="lds-facebook">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+`;
+
+btnSearch.onclick = () => {
+  const resultsWrapper = document.querySelector('.search-results__wrapper');
+
+  resultsWrapper.innerHTML = loaderNode;
+  // delay just for funny
+  setTimeout(() => {
+    const options = checkedOption();
+    let finallyContent = '';
+
+    try {
+      if (options.length) {
+        const optionsListsArr = [];
+
+        searchInFile(fileContent, options).forEach((item, index) => {
+          const optionList = document.createElement('ul');
+          const li = document.createElement('li');
+
+          // optionList.append(`<h3>${options[index]}</h3>`);
+          // li.textContent = item;
+          // console.log('item ', item);
+          // optionList.appendChild(li);
+          // optionsListsArr.push(optionList);
+        });
+
+        finallyContent = optionsListsArr.concat('');
+      } else {
+        finallyContent = 'Nothing found';
+      }
+    } catch (err) {
+      finallyContent = 'Nothing found';
+      console.error(`Search error: ${err}`);
+    } finally {
+      resultsWrapper.innerHTML = finallyContent;
+    }
+  }, 1200);
+};
+
+const arrCheckboxes = [...document.querySelectorAll('input[type=checkbox]')];
+
+function checkedOption() {
+  const checkedOptionsArr = [];
+
+  for (let i = 0; i < arrCheckboxes.length; i += 1) {
+    if (arrCheckboxes[i].checked) {
+      checkedOptionsArr.push(arrCheckboxes[i].value);
+    }
+  }
+
+  return checkedOptionsArr;
+}
+
+function searchInFile(fileContent, arrOptions) {
   let resultArr = [];
 
   arrOptions.forEach((regName) => {
@@ -124,10 +150,6 @@ function searchInText(fileContent, arrOptions) {
 
   return resultArr;
 }
-
-/* ----------------------------------------------
- * Search result section
- */
 
 /* ----------------------------------------------
  * Footer time
@@ -141,9 +163,13 @@ setHours();
 setMinutes();
 setSeconds();
 
-setInterval(setHours, 1000 * 60 * 60);
-setInterval(setMinutes, 1000 * 60);
-setInterval(setSeconds, 1000);
+const MS_IN_SEC = 1000;
+const SEC_IN_MIN = MS_IN_SEC * 60;
+const MIN_IN_HOUR = SEC_IN_MIN * 60;
+
+setInterval(setHours, MIN_IN_HOUR);
+setInterval(setMinutes, SEC_IN_MIN);
+setInterval(setSeconds, MS_IN_SEC);
 
 function setHours() {
   new Date().getHours().toString().length === 1
